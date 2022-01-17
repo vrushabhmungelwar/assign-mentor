@@ -28,36 +28,42 @@ router.post("/newMentor", async (req, res) => {
 router.post("/modifyMentor", async (req, res) => {
   try {
     let stud = await student.findById(req.body.studentId);
+    let oldmentid = stud.mentorAssigned;
+
     stud.mentorAssigned = req.body.newMentorId;
     stud.save();
 
-    let oldment = await mentor.findById(oldMentorId);
-
-    if (oldment.studentsAssigned.length < 0) {
-      console.log("oldment");
-      return;
-    } else {
-      let newAssigned = oldment.studentsAssigned;
-      const indexpos = newAssigned.indexOf(objId(req.body.studentId));
-      console.log(indexpos, "index");
-      newAssigned.pop(indexpos);
-      console.log(newAssigned);
-      oldment.studentsAssigned = newAssigned;
-    }
+    let oldment = await mentor.findById(oldmentid);
+    var new_list = oldment.studentsAssigned;
+    oldment = new_list.filter((e) => e !== req.body.studentId);
+    // if (oldment.studentsAssigned.length < 0) {
+    //   // console.log("oldment");
+    //   return;
+    // } else {
+    //   let newAssigned = oldment.studentsAssigned;
+    //   const indexpos = newAssigned.indexOf(objId(req.body.studentId));
+    //   // console.log(indexpos, "index");
+    //   newAssigned.pop(indexpos);
+    //   // console.log(newAssigned);
+    //   oldment.studentsAssigned = newAssigned;
+    // }
 
     oldment.save();
 
     let newment = await mentor.findById(req.body.newMentorId);
-    if (newment.studentsAssigned.length < 0) {
-      return;
-    } else {
-      if (!newment.studentsAssigned.includes(req.body.studentId)) {
-        newment.studentsAssigned = [
-          ...newment.studentsAssigned,
-          req.body.studentId,
-        ];
-      }
-    }
+    var new_list1 = newment.studentsAssigned;
+    newment = new_list1.push(req.body.studentId);
+
+    // if (newment.studentsAssigned.length < 0) {
+    //   return;
+    // } else {
+    //   if (!newment.studentsAssigned.includes(req.body.studentId)) {
+    //     newment.studentsAssigned = [
+    //       ...newment.studentsAssigned,
+    //       req.body.studentId,
+    //     ];
+    //   }
+    // }
     newment.save();
 
     res.send("Assigned a student to a new mentor");
