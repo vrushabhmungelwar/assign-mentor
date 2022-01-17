@@ -35,7 +35,9 @@ router.post("/modifyMentor", async (req, res) => {
 
     let oldment = await mentor.findById(oldmentid);
     var new_list = oldment.studentsAssigned;
-    oldment = new_list.filter((e) => e !== req.body.studentId);
+    new_list = new_list.filter((e) => e !== req.body.studentId);
+
+    oldment.studentsAssigned = new_list;
     // if (oldment.studentsAssigned.length < 0) {
     //   // console.log("oldment");
     //   return;
@@ -52,8 +54,8 @@ router.post("/modifyMentor", async (req, res) => {
 
     let newment = await mentor.findById(req.body.newMentorId);
     var new_list1 = newment.studentsAssigned;
-    newment = new_list1.push(req.body.studentId);
-
+    new_list1 = new_list1.push(req.body.studentId);
+    newment.studentsAssigned = new_list1;
     // if (newment.studentsAssigned.length < 0) {
     //   return;
     // } else {
