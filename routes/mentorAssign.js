@@ -32,25 +32,15 @@ router.post("/modifyMentor", async (req, res) => {
 
     stud.mentorAssigned = req.body.newMentorId;
     stud.save();
-    //
+  
     let oldment = await mentor.findById(oldmentid);
-    var new_list = oldment.studentsAssigned;
-    new_list = new_list.filter((e) => e !== req.body.studentId);
 
-    oldment.studentsAssigned = new_list;
-    //
 
-    // if (oldment.studentsAssigned.length < 0) {
-    //   // console.log("oldment");
-    //   return;
-    // } else {
-    //   let newAssigned = oldment.studentsAssigned;
-    //   const indexpos = newAssigned.indexOf(objId(req.body.studentId));
-    //   // console.log(indexpos, "index");
-    //   newAssigned.pop(indexpos);
-    //   // console.log(newAssigned);
-    //   oldment.studentsAssigned = newAssigned;
-    // }
+  
+      let newAssigned = oldment.studentsAssigned;
+      const indexpos = newAssigned.indexOf(objId(req.body.studentId));
+      newAssigned.pop(indexpos);
+      oldment.studentsAssigned = newAssigned;
 
     oldment.save();   
 
