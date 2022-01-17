@@ -53,9 +53,15 @@ router.post("/modifyMentor", async (req, res) => {
     oldment.save();
 
     let newment = await mentor.findById(req.body.newMentorId);
-    var new_list1 = newment.studentsAssigned;
-    new_list1 = new_list1.push(req.body.studentId);
-    newment.studentsAssigned = new_list1;
+    // var new_list1 = newment.studentsAssigned;
+    // new_list1 = new_list1.push(req.body.studentId);
+    // newment.studentsAssigned = new_list1;
+
+
+    newment.studentsAssigned = [
+      ...newment.studentsAssigned,
+      ...req.body.studentsArray,
+    ];
     // if (newment.studentsAssigned.length < 0) {
     //   return;
     // } else {
