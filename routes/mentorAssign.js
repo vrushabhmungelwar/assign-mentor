@@ -29,28 +29,21 @@ router.post("/modifyMentor", async (req, res) => {
   try {
     let stud = await student.findById(req.body.studentId);
     let oldmentid = stud.mentorAssigned;
-
     stud.mentorAssigned = req.body.newMentorId;
     stud.save();
-  
+
     let oldment = await mentor.findById(oldmentid);
-
-
-  
-      let newAssigned = oldment.studentsAssigned;
-      const indexpos = newAssigned.indexOf(objId(req.body.studentId));
-      newAssigned.pop(indexpos);
-      oldment.studentsAssigned = newAssigned;
-
-    oldment.save();   
+    let newAssigned = oldment.studentsAssigned;
+    const indexpos = newAssigned.indexOf(objId(req.body.studentId));
+    newAssigned.pop(indexpos);
+    oldment.studentsAssigned = newAssigned;
+    oldment.save();
 
     let newment = await mentor.findById(req.body.newMentorId);
-
     newment.studentsAssigned = [
       ...newment.studentsAssigned,
       req.body.studentId,
     ];
-
     newment.save();
 
     res.send("Assigned a student to a new mentor");
