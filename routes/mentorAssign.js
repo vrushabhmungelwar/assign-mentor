@@ -61,7 +61,7 @@ router.post("/modifyMentor", async (req, res) => {
 
     newment.studentsAssigned = [
       ...newment.studentsAssigned,
-      req.body.studentsArray,
+      req.body.studentId,
     ];
     // if (newment.studentsAssigned.length < 0) {
     //   return;
