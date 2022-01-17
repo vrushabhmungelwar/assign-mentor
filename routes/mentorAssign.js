@@ -28,16 +28,18 @@ router.post("/newMentor", async (req, res) => {
 router.post("/modifyMentor", async (req, res) => {
   try {
     let stud = await student.findById(req.body.studentId);
-    let oldmentid = stud.mentorAssigned;
+    // let oldmentid = stud.mentorAssigned;
 
     stud.mentorAssigned = req.body.newMentorId;
     stud.save();
+//
+    // let oldment = await mentor.findById(oldmentid);
+    // var new_list = oldment.studentsAssigned;
+    // new_list = new_list.filter((e) => e !== req.body.studentId);
 
-    let oldment = await mentor.findById(oldmentid);
-    var new_list = oldment.studentsAssigned;
-    new_list = new_list.filter((e) => e !== req.body.studentId);
+    // oldment.studentsAssigned = new_list;
+//
 
-    oldment.studentsAssigned = new_list;
     // if (oldment.studentsAssigned.length < 0) {
     //   // console.log("oldment");
     //   return;
@@ -50,17 +52,16 @@ router.post("/modifyMentor", async (req, res) => {
     //   oldment.studentsAssigned = newAssigned;
     // }
 
-    oldment.save();
+    // oldment.save();    ------
 
     let newment = await mentor.findById(req.body.newMentorId);
     // var new_list1 = newment.studentsAssigned;
     // new_list1 = new_list1.push(req.body.studentId);
     // newment.studentsAssigned = new_list1;
 
-
     newment.studentsAssigned = [
       ...newment.studentsAssigned,
-      ...req.body.studentsArray,
+      req.body.studentsArray,
     ];
     // if (newment.studentsAssigned.length < 0) {
     //   return;
